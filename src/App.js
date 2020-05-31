@@ -1,26 +1,63 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import JoyStick from 'react-joystick';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+/*class App extends Component {
+  render() {
+    
+      return (
+        <div className="App">
+          <header className="App-header">
+         <JoyWrapper></JoyWrapper>
+          </header>
+        </div>
+    );
+  }
+}*/
+
+const joyOptions = {
+  mode: 'semi',
+  catchDistance: 150,
+  color: 'white'
 }
 
-export default App;
+const containerStyle = {
+  position: 'relative',
+  height: '350px',
+  width: '100%',
+  background: 'linear-gradient(to right, #E684AE, #79CBCA, #77A1D3)'
+}
+
+
+class JoyWrapper extends Component {
+  constructor() {
+      super();
+      this.managerListener = this.managerListener.bind(this);
+  }
+
+  managerListener(manager) {
+      manager.on('move', (e, stick) => {
+          console.log('I moved!')
+      })
+      manager.on('end', () => {
+          console.log('I ended!')
+      })
+  }
+
+  render() {
+      const { classes } = this.props;
+      return (
+          <div>
+            
+              <JoyStick joyOptions={joyOptions} containerStyle={containerStyle} managerListener={this.managerListener} />
+              <JoyStick joyOptions={joyOptions} containerStyle={containerStyle} managerListener={this.managerListener} />
+          </div>
+          
+      )
+  }
+}
+
+export default JoyWrapper;
